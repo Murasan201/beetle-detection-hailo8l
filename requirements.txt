@@ -1,0 +1,22 @@
+# Deep Learning Framework
+torch>=2.0.0
+torchvision>=0.15.0
+ultralytics>=8.0.0
+
+# Computer Vision
+opencv-python>=4.8.0
+
+# Data Processing
+numpy>=1.24.0
+pandas>=2.0.0
+
+# Image Processing
+Pillow>=9.0.0
+
+# Logging and Utilities
+tqdm>=4.65.0
+
+# Optional: Development tools
+pytest>=7.0.0
+black>=23.0.0
+flake8>=6.0.0
