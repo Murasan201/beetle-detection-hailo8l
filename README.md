@@ -188,9 +188,9 @@ This project uses the beetle detection dataset from Roboflow for custom YOLOv8 m
    └── data.yaml      # YOLOv8 configuration
    ```
 
-## 🎉 Hailo 8L NPU Success - World's First Custom YOLOv8 Solution
+## 🎉 Hailo 8L NPU Success - Custom YOLOv8 Solution
 
-**🎯 Major Achievement**: This project has successfully achieved the world's first complete solution for converting custom 1-class YOLOv8 models to Hailo 8L NPU format!
+**🎯 Major Achievement**: This project has successfully achieved a complete solution for converting custom 1-class YOLOv8 models to Hailo 8L NPU format!
 
 ### 🏆 What Was Accomplished
 - ✅ **Complete HEF Generation**: Successfully generated `best.hef` (9.3MB) for Hailo 8L NPU
@@ -243,7 +243,6 @@ This repository contains **technical book-level documentation** that enables any
 ### 🌟 Impact and Value
 
 This documentation represents:
-- **🌍 Global First**: No prior solution existed for this specific problem
 - **📖 Technical Book Value**: Complete, reproducible methodology
 - **⏱️ Time Saving**: Reduces 40+ hours of trial-and-error to 30 minutes
 - **🔧 Production Ready**: Verified working solution with real hardware
