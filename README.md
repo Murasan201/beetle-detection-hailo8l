@@ -57,7 +57,7 @@ pip install -r requirements.txt
 For readers who want to immediately test the beetle detection:
 
 1. **Download the pre-trained model** from Hugging Face:
-   - Visit: `https://huggingface.co/[your-username]/beetle-detection-yolov8`
+   - Visit: `https://huggingface.co/Murasan/beetle-detection-yolov8`
    - Download `best.pt` to the `weights/` directory
 
 2. **Run detection**:
@@ -174,7 +174,7 @@ For readers ready to experiment:
 
 ### Model Access
 
-- **Pre-trained Model**: [Hugging Face Repository](https://huggingface.co/[your-username]/beetle-detection-yolov8)
+- **Pre-trained Model**: [Hugging Face Repository](https://huggingface.co/Murasan/beetle-detection-yolov8)
 - **Training Code**: This GitHub repository
 - **Dataset**: Instructions provided in the book
 
