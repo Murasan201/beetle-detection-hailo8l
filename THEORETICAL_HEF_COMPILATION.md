@@ -1,7 +1,7 @@
-# 理論的HEFコンパイル手順書
-## YOLOv8甲虫検出モデル Hailo 8L変換ガイド
+# YOLOv8甲虫検出モデル Hailo 8L実装ガイド
+## 調査結果に基づく実際のコンパイル手順
 
-*注意: この文書はHailo SDK未入手の状況での理論的手順です*
+*注意: この文書は調査報告書に基づく実際の手順です*
 
 ---
 
@@ -10,12 +10,31 @@
 ### ✅ 準備完了済みアセット
 1. **PyTorchモデル**: `weights/best.pt` (6.0MB)
 2. **ONNXモデル**: `weights/best.onnx` (11.7MB)
-3. **キャリブレーションデータ**: `calibration_data/` (64画像)
+3. **キャリブレーションデータ**: `calibration_data/` (64画像、推奨1024枚以上)
 4. **Python環境**: hailo-env with required packages
 
 ---
 
-## 🔧 理論的Hailo SDK設定
+## 🔧 実際のHailo SDK設定
+
+### 1. Hailo SDKコンポーネントインストール
+
+```bash
+# 3つの必要コンポーネントをDeveloper Zoneからダウンロード後
+sudo dpkg -i hailort_<version>_amd64.deb
+pip install hailort-<version>-cp<...>.whl
+pip install hailo_dataflow_compiler-<version>-py3-none-linux_x86_64.whl
+
+# Hailo Model Zoo設定
+git clone https://github.com/hailo-ai/hailo_model_zoo.git
+cd hailo_model_zoo
+pip install -e .
+```
+
+### 2. 重要な発見事項
+- ✅ **無償提供**: 登録ユーザであれば無償でダウンロード・使用可能
+- ✅ **商用利用可**: 技術書掲載や商用プロジェクトで追加費用なし
+- ⚠️ **EULA制限**: 性能ベンチマーク詳細公開、SDK再配布制限
 
 ### 1. Hailo Model Zoo設定ファイル
 
@@ -88,58 +107,54 @@ def preprocess_func(image_path):
 
 ---
 
-## 🚀 理論的コンパイル手順
+## 🚀 実際のコンパイル手順（3ステップ）
 
-### Phase 1: ONNX Parsing
+### ステップ1: モデルのパース（HAR生成）
 
 ```bash
-# 理論的コマンド (Hailo SDK required)
-hailo parser onnx weights/best.onnx \
-  --output-dir parsed_model \
-  --start-node-names images \
-  --end-node-names output0 \
-  --hw-arch hailo8l
+# 実際のコマンド
+hailomz parse --hw-arch hailo8l --ckpt ./best.onnx yolov8s
 ```
 
-**期待される出力:**
-- `parsed_model/yolov8n_beetle.hn` (Hailo Network格式)
-- ネットワーク構造解析レポート
-- レイヤー互換性チェック結果
+**実行内容:**
+- ONNXモデルをHailo形式（HAR: Hailo Archive）に変換
+- ネットワーク構造の解析とvalidation
+- Hailo 8L NPUとの互換性確認
 
-### Phase 2: Model Optimization
+### ステップ2: モデルの最適化（量子化）
 
 ```bash
-# 理論的コマンド
-hailo optimize \
-  --model-script parsed_model/yolov8n_beetle.hn \
-  --calib-path calibration_data \
-  --calib-set-size 64 \
-  --output-dir optimized_model \
-  --hw-arch hailo8l
+# 実際のコマンド
+hailomz optimize \
+  --hw-arch hailo8l \
+  --har yolov8s.har \
+  --calib-path ./calibration_data/ \
+  yolov8s
 ```
 
 **最適化プロセス:**
 1. **量子化キャリブレーション**: FP32→INT8変換
-2. **レイヤーフュージョン**: 連続するConv+BN+ReLU統合
-3. **メモリ最適化**: NPUメモリレイアウト最適化
-4. **並列化**: マルチコア処理最適化
+2. **キャリブレーションデータ**: 64画像使用（1024枚以上推奨）
+3. **精度vs性能**: バランス調整
+4. **NPUアーキテクチャ最適化**: Hailo 8L専用最適化
 
-### Phase 3: Hardware Compilation
+### ステップ3: モデルのコンパイル（HEF生成）
 
 ```bash
-# 理論的コマンド
-hailo compiler \
-  --model-script optimized_model/yolov8n_beetle_optimized.hn \
-  --output-dir compiled_model \
+# 実際のコマンド
+hailomz compile \
   --hw-arch hailo8l \
-  --output-file yolov8n_beetle.hef
+  --ckpt ./best.onnx \
+  --calib-path ./calibration_data/ \
+  --yaml hailo_model_zoo/cfg/networks/yolov8s.yaml \
+  --classes 1
 ```
 
 **コンパイルプロセス:**
-1. **NPU命令生成**: Hailo 8L専用命令セット変換
-2. **メモリマッピング**: オンチップメモリ配置最適化
-3. **パイプライン最適化**: 13TOPS性能最大化
-4. **HEFパッケージング**: 最終デプロイ可能形式
+1. **カスタマイズ**: `--classes 1` で甲虫検出用に調整
+2. **Model Zoo設定**: `yolov8s.yaml` をベースに使用
+3. **HEF生成**: `*.hef` ファイル出力
+4. **デプロイ準備**: Raspberry Pi転送可能形式
 
 ---
 
@@ -170,9 +185,32 @@ HEF Runtime: コンパクト化予想
 
 ---
 
-## 🎯 Raspberry Pi統合コード例
+## 🎯 Raspberry Pi統合（実際の手順）
 
-### Hailo NPU推論クラス
+### 1. Raspberry Pi環境セットアップ
+
+```bash
+# Raspberry Pi上でのHailo-8Lランタイムインストール
+sudo apt update && sudo apt install -y hailo-all
+sudo reboot
+```
+
+### 2. 公式サンプルコード使用
+
+```bash
+# hailo-rpi5-examplesを使用した実行
+git clone https://github.com/hailo-ai/hailo-rpi5-examples.git
+cd hailo-rpi5-examples
+source setup_env.sh
+
+# カスタムモデルでの検出実行
+python basic_pipelines/detection.py \
+  --labels-json custom.json \
+  --hef-path /home/pi/your_model.hef \
+  --input usb -f
+```
+
+### 3. カスタム統合実装例
 
 ```python
 # theoretical_beetle_detector_hailo.py
@@ -382,17 +420,18 @@ sudo hailo fw-control identify
 ## ⚠️ 重要な免責事項
 
 ### ライセンス・規約準拠
-- この文書は理論的手順であり、実際のHailo SDK環境での検証が必要です
-- **Hailoライセンス規約により、具体的な性能数値の公開は禁止されています**
-- 実装時は最新のHailo公式ドキュメントとライセンス条項を確認してください
-- 商用利用の場合は適切なライセンス取得が必要です
+- **調査結果**: Hailo SDKは登録ユーザに無償提供、商用利用も可能
+- **EULA制限**: 性能ベンチマーク詳細公開、SDK再配布、リバースエンジニアリング制限
+- **実装推奨**: 最新のHailo公式ドキュメントとライセンス条項を確認
+- **技術書掲載**: 追加費用なしで商用プロジェクトでの使用可能
 
 ### 技術的制限事項
-- コード例は教育目的であり、本番環境での動作を保証するものではありません
+- この文書は調査報告書に基づく実際の手順ですが、環境により差異の可能性
 - Hailo SDK APIは変更される可能性があります
 - 最終的な実装はHailo公式サポートとの連携を推奨します
+- キャリブレーション画像は1024枚以上推奨（現在64枚）
 
 ---
 
-*最終更新: 2025-07-04 22:40 JST*  
-*ライセンス準拠: Hailo性能値非公開ポリシー適用*
+*最終更新: 2025-07-04 23:20 JST*  
+*調査報告書反映: 実際の手順・ライセンス情報更新*
