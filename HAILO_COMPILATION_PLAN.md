@@ -41,12 +41,19 @@ pip install ultralytics onnx numpy opencv-python pyyaml requests
 
 #### 2.1 Hailo AI Software Suite（実際の手順）
 - [x] **更新**: Hailo Developer Zone登録（**無償提供**）
+- [x] **更新**: SDK公式ダウンロードサイト: https://hailo.ai/developer-zone/software-downloads/
 - [x] **更新**: 3つの必要コンポーネント特定
   - Hailo Dataflow Compiler (DFC)
   - Hailo Runtime (HailoRT) ライブラリ
   - HailoRT Pythonホイール
 - [x] **更新**: WSL/Docker環境での隔離推奨
 - [x] **更新**: Python 3.8/3.10環境要件
+
+#### 2.1.1 必要ファイルのダウンロード
+**Hailo公式サイトから取得済み** (https://hailo.ai/developer-zone/software-downloads/):
+- [x] **完了**: `hailo_ai_sw_suite_2025-04_docker.zip` (Dockerベース開発環境)
+- [x] **完了**: `hailort-pcie-driver_4.21.0_all.deb` (PCIe ドライバ)
+- [x] **配置完了**: `/home/win/dev/hailo-sdk/` ディレクトリに格納済み
 
 #### 2.2 実際のインストール手順
 ```bash
@@ -371,20 +378,24 @@ beetle-detection-hailo8l/
 
 ---
 
-## 🎯 更新された次回作業予定
+## 🎯 次回作業予定
 
-### 即座実行可能なタスク
+### ✅ **準備完了タスク**
 
 1. **✅ 完了済み**: モデル変換パイプライン（PyTorch→ONNX）
 2. **✅ 完了済み**: キャリブレーションデータ準備
-3. **📝 作業中**: 理論的HEFコンパイル手順文書化
-4. **⏳ 予定**: OpenVINO代替実装の検討
+3. **✅ 完了済み**: 実際のHEFコンパイル手順確定
+4. **📦 準備済み**: Hailo SDK ファイル取得完了
+   - `hailo_ai_sw_suite_2025-04_docker.zip`
+   - `hailort-pcie-driver_4.21.0_all.deb`
+   - 配置場所: `/home/win/dev/hailo-sdk/`
 
-### Hailo SDK入手後のタスク
+### 🚀 **実行予定タスク**
 
-1. **HEFコンパイル実行**: 実際のSDKでの変換
-2. **性能ベンチマーク**: NPU vs CPU比較測定
-3. **Raspberry Pi統合**: リアルタイム推論実装
+1. **Hailo SDK インストール**: ドライバ・Docker環境セットアップ
+2. **実際のHEFコンパイル**: 3ステップでモデル変換実行
+3. **動作検証**: コンパイル済みモデルのテスト
+4. **最適化調整**: キャリブレーション画像数調整（64→1024枚）
 
 ---
 

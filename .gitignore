@@ -216,3 +216,12 @@ compiled_models/
 *.hn
 **/hailo_investigations/
 **/hailo_reports/
+HAILO_SDK_SETUP.md
+HAILO_INVESTIGATION_SUMMARY.md
+hailo_yolov8_report.md
+hailo_yolov8_full_report.md
+
+# Hailo SDK files (DO NOT COMMIT)
+hailo_ai_sw_suite_*.zip
+hailort-pcie-driver_*.deb
+*.tar

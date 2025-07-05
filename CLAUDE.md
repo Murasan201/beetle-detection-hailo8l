@@ -249,6 +249,23 @@ model_path = hf_hub_download(
 - Include disclaimer about commercial licensing requirements
 - Reference official Hailo documentation for performance specifications
 
+## Hailo SDK Management
+
+### SDK File Location
+- **SDK Installation Path**: `/home/win/dev/hailo-sdk/`
+- **Required Components**:
+  - `hailo_ai_sw_suite_2025-04_docker/` (Docker environment)
+  - `hailort-pcie-driver_4.21.0_all.deb` (PCIe driver)
+- **Status**: SDK files prepared for installation
+
+### SDK File Restrictions
+- **NEVER commit Hailo SDK files to GitHub**
+- SDK files are excluded via `.gitignore` for:
+  - Commercial license compliance (EULA restrictions)
+  - Large file sizes (Docker archives, drivers)
+  - Redistribution restrictions
+  - Repository efficiency
+
 ## Security Guidelines
 
 ### Sensitive Information Protection
@@ -270,6 +287,7 @@ model_path = hf_hub_download(
 - Git configuration files containing personal information
 - **Hailo調査報告書**: `YOLOv8モデルをHailo-8Lで実行するためのコンパイル手順.pdf`
 - 商用ライセンス関連の調査資料・内部文書
+- **Hailo SDK files**: All files in `/home/win/dev/hailo-sdk/`
 
 ### Security Best Practices
 - Review all files before committing with `git status` and `git diff`
