@@ -1,0 +1,1 @@
+nms_postprocess("custom_yolov8_nms_config.json", meta_arch=yolov8, engine=cpu)
