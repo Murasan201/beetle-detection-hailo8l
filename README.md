@@ -145,39 +145,6 @@ The project follows a clean, modular structure with clear separation of concerns
 - **Logging**: Structured logging with CSV output
 - **Error Handling**: Graceful handling of individual file failures
 
-## 📚 For Book Readers
-
-This project serves as a companion to **[Your Book Title]** - Chapter X: Insect Detection with YOLOv8.
-
-### Learning Paths
-
-#### 🚀 **Quick Start** (5 minutes)
-Perfect for readers who want to see results immediately:
-1. Clone this repository
-2. Download pre-trained model from Hugging Face
-3. Run detection on sample images
-4. See the results!
-
-#### 📖 **Full Learning** (2-3 hours)  
-For readers who want to understand the complete process:
-1. Read the theory in the book chapter
-2. Follow the Jupyter notebook step-by-step
-3. Train your own model with the dataset
-4. Compare results with the pre-trained model
-
-#### 🔬 **Advanced Exploration** (1-2 days)
-For readers ready to experiment:
-1. Try different YOLOv8 model sizes (nano → small → medium)
-2. Experiment with your own insect images
-3. Fine-tune hyperparameters
-4. Deploy on Raspberry Pi (Chapter X+1)
-
-### Model Access
-
-- **Pre-trained Model**: [Hugging Face Repository](https://huggingface.co/Murasan/beetle-detection-yolov8)
-- **Training Code**: This GitHub repository
-- **Dataset**: Instructions provided in the book
-
 ## 🔒 Security
 
 This project implements security best practices:
