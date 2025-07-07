@@ -1,0 +1,14 @@
+{
+  "nms_postprocess": {
+    "nms_config": {
+      "bbox_decoders": [
+        {
+          "name": "yolov8_bbox_decoder",
+          "bbox_layers": ["yolov8s/conv41"],
+          "scores_layers": ["yolov8s/conv41"],
+          "anchors": [[8, 16], [16, 32], [32, 64]]
+        }
+      ]
+    }
+  }
+}

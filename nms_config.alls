@@ -1,0 +1,3 @@
+nms_postprocess(
+    nms_config="yolo_nms_config.json"
+)

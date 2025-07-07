@@ -29,10 +29,11 @@
 - **Runtime**: Python 3.10+ with CUDA support  
 - **Storage**: Google Drive integration for dataset management  
 
-### 3.3 Future Environment (Reference)
+### 3.3 Production Environment (Raspberry Pi 5 + Hailo 8L NPU)
 - **OS**: Raspberry Pi OS (64bit)  
-- **Hardware**: Raspberry Pi 5 (8GB RAM)  
-> *Not used in this phase*
+- **Hardware**: Raspberry Pi 5 (8GB RAM) + Hailo 8L NPU (AI Kit)
+- **Inference Implementation**: `hailo_beetle_detection.py` - Real-time NPU inference script
+- **Status**: Production-ready implementation available
 
 ---
 
@@ -204,6 +205,15 @@ insect-detection-training/
    - Download trained weights from Hugging Face Model Hub
    - Integrate with local detection application  
    - Test inference performance on local CPU
+
+### 11.4 Production Environment (Raspberry Pi 5 Deployment Phase)
+7. **NPU Model Compilation**
+   - Convert PyTorch model to Hailo 8L NPU format (HEF)
+   - Optimize for edge device performance
+8. **Production Inference Implementation**
+   - **Script**: `hailo_beetle_detection.py` - Real-time inference on Raspberry Pi 5
+   - **NPU Integration**: Hailo 8L hardware acceleration
+   - **Input Support**: USB camera, RPi camera, video files
 
 ### 11.3.1 Fine-tuned Model Distribution
 - **Repository**: https://huggingface.co/Murasan/beetle-detection-yolov8

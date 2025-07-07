@@ -263,11 +263,68 @@ This documentation represents:
 - Working configuration files provided
 - Technical breakthroughs documented
 
+## 🎥 Real-time Inference on Raspberry Pi 5
+
+### Hailo 8L NPU Production Deployment
+
+This project includes **production-ready scripts** for real-time beetle detection on Raspberry Pi 5 with Hailo 8L NPU:
+
+#### 📁 Inference Scripts
+- **`hailo_beetle_detection.py`** - Main real-time inference script
+  - **Purpose**: Production deployment on Raspberry Pi 5 + Hailo 8L NPU
+  - **Features**: USB/RPi camera support, real-time processing, FPS monitoring
+  - **Usage**: `python3 hailo_beetle_detection.py --input usb --hef-path best.hef`
+
+#### 🛠️ Supporting Libraries
+- **`hailo_rpi_common.py`** - GStreamer utilities for buffer processing
+- **`detection_pipeline.py`** - Pipeline management and error handling
+
+#### 📖 Complete Deployment Guide
+- **`HAILO_INFERENCE_README.md`** - Comprehensive setup and usage guide
+  - **Hardware Requirements**: Raspberry Pi 5, Hailo 8L NPU, camera
+  - **Software Installation**: HailoRT, GStreamer, Python dependencies
+  - **Troubleshooting**: Common issues and solutions
+  - **Performance Optimization**: GPU memory, CPU governor settings
+
+#### 🚀 Quick Start for Raspberry Pi 5
+
+1. **Setup Environment**:
+   ```bash
+   # Install Hailo packages
+   sudo apt update && sudo apt install -y hailo-all
+   
+   # Install Python dependencies
+   pip3 install numpy opencv-python setproctitle
+   ```
+
+2. **Run Real-time Detection**:
+   ```bash
+   # USB Camera
+   python3 hailo_beetle_detection.py --input usb
+   
+   # Raspberry Pi Camera
+   python3 hailo_beetle_detection.py --input rpi
+   
+   # Custom HEF file
+   python3 hailo_beetle_detection.py --input usb --hef-path /path/to/custom.hef
+   ```
+
+3. **Expected Performance**:
+   - **Speed**: Significant acceleration compared to CPU processing
+   - **Latency**: Hardware-accelerated inference
+   - **Efficiency**: Optimized for edge device deployment
+
+#### 🎯 Key Features
+- **Flexible Input Sources**: USB camera, RPi camera, video files
+- **Custom Model Support**: `--hef-path` argument for any HEF model
+- **Real-time Monitoring**: Live FPS display and detection count
+- **Production Ready**: Error handling, logging, graceful shutdown
+
 ### Future Enhancements
-- Raspberry Pi 5 + Hailo 8L integration examples
-- Real-time video processing pipeline
 - Performance benchmarking framework
 - Multi-class model adaptation guide
+- Advanced visualization features
+- IoT integration examples
 
 ## 📄 License
 

@@ -1,0 +1,17 @@
+{
+    "meta_arch": "yolo_v8",
+    "classes": 1,
+    "bbox_decoders": [
+        {
+            "name": "yolov8_bbox_decoder",
+            "bbox_layers": ["yolov8s/conv41"],
+            "scores_layers": ["yolov8s/conv41"],
+            "anchors": [[8, 16], [16, 32], [32, 64]]
+        }
+    ],
+    "nms": {
+        "score_threshold": 0.25,
+        "iou_threshold": 0.45,
+        "max_detections": 100
+    }
+}
